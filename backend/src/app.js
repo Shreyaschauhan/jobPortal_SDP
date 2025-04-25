@@ -101,4 +101,28 @@ app.use((err, req, res, next) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Job Portal API is running',
+    status: 'active',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    message: 'Server is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/v1/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    message: 'API V1 is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
 export { app }
