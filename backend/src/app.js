@@ -23,7 +23,8 @@ app.use(cors({
         
         const allowedOrigins = [
             "http://localhost:5173",
-            process.env.CORS_ORIGIN
+            'https://job-portal-sdp.vercel.app',
+            process.env.FRONTEND_URL
         ].filter(Boolean);
         
         // Check if origin matches any allowed origin or is a render.com subdomain
