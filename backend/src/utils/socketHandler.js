@@ -4,7 +4,16 @@ import { Chat } from "../models/chat.model.js"
 const users = {} // Store connected users
 
 export const initSocket = (server) => {
-  const io = new Server(server, { cors: { origin: "http://localhost:5173" } })
+  const io = new Server(server, {
+    cors: {
+      origin: [
+        "http://localhost:5173",
+        "https://job-portal-sdp.vercel.app",
+      ],
+      credentials: true,
+      methods: ["GET", "POST"],
+    },
+  });
   // const io = new Server(server, { cors: { origin: "http://localhost:5173" } })
 
   io.on("connection", (socket) => {
