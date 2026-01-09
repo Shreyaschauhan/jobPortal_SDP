@@ -15,18 +15,27 @@ const Chat = () => {
   const API_URL = import.meta.env.VITE_REACT_APP_API_URL
 
   useEffect(() => {
-    const newSocket = io("http://localhost:8081")
-    // const newSocket = io(`${API_URL}`)
-    setSocket(newSocket)
+  const SOCKET_URL =
+    import.meta.env.PROD
+      ? "https://jobportal-backend-e3wl.onrender.com"
+      : "http://localhost:8081";
 
-    newSocket.on("updateOnlineUsers", (users) => {
-      setOnlineUsers(users)
-    })
+  const newSocket = io(SOCKET_URL, {
+    withCredentials: true,
+  });
 
-    newSocket.emit("getOnlineUsers")
+  setSocket(newSocket);
 
-    return () => newSocket.disconnect()
-  }, [])
+  newSocket.on("updateOnlineUsers", (users) => {
+    setOnlineUsers(users);
+  });
+
+  newSocket.emit("getOnlineUsers");
+
+  return () => {
+    newSocket.disconnect();
+  };
+}, []);
 
   return (
     <div className="flex h-screen bg-gray-50">
