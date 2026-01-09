@@ -83,6 +83,11 @@ app.use("/v1/news", newsRouter);
 app.use(passport.initialize());
 app.use("/auth", authRoutes);
 
+app.get("/v1/news/tech", (req, res) => {
+  res.json({ test: "news route works" });
+});
+
+
 initSocket(server);
 const PORT = process.env.PORT || 8081;
 server.listen(PORT, () => {
