@@ -2,6 +2,8 @@
 
 JobConnect is a full-fledged job portal application built using the MERN stack (MongoDB, Express.js, React.js, Node.js) with advanced features for job seekers, recruiters, and admins. It facilitates real-time job posting, application tracking, recruiter-applicant messaging, AI assistance, resume analysis, premium memberships, and an admin dashboard for managing the platform.
 
+🔗 **Live Demo:** [https://job-portal-sdp.vercel.app/](https://job-portal-sdp.vercel.app/)
+
 
 
 ## ✅ Features
