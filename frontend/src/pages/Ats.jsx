@@ -61,34 +61,37 @@ const ATS = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(`${API_URL}/users/getCurrentUser`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const result = await response.json();
-        if (result.success) {
-          const userData = result.data;
-          setResumeUrl(userData.resume);
-        } else {
-          throw new Error(result.message || "Failed to fetch user data");
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(
+        `${API_URL}/v1/users/getCurrentUser`,
+        {
+          method: "GET", // ✅ FIX 1
+          credentials: "include", // ✅ sends JWT cookie
         }
-      } catch (error) {
-        toast.error("Error fetching user data", {
-          description: error.message,
-        });
-      } finally {
-        setInitialLoading(false);
-      }
-    };
+      );
 
-    fetchUserData();
-  }, []);
+      if (!response.ok) {
+        throw new Error("User not authenticated");
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        const userData = result.data;
+        setResumeUrl(userData.resume);
+      }
+    } catch (error) {
+      // ✅ This is EXPECTED if user is not logged in
+      console.log("User not logged in");
+    } finally {
+      setInitialLoading(false);
+    }
+  };
+
+  fetchUserData();
+}, []);
+
 
   // Parse the result when it changes
   useEffect(() => {
