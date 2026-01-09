@@ -64,7 +64,7 @@ const ATS = () => {
   const fetchUserData = async () => {
     try {
       const response = await fetch(
-        `${API_URL}/v1/users/getCurrentUser`,
+        `${API_URL}/users/getCurrentUser`,
         {
           method: "GET", // ✅ FIX 1
           credentials: "include", // ✅ sends JWT cookie
