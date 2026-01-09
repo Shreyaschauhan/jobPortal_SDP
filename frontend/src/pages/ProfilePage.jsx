@@ -24,7 +24,7 @@ const ProfilePage = () => {
   const fetchUserData = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(
+      const response = await axios.get(
         `${API_URL}/users/getCurrentUser`,
         {}, // Empty body for POST request
         {
