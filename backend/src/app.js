@@ -6,6 +6,7 @@ import { initSocket } from "./utils/socketHandler.js";
 import passport from "./utils/passport.js";
 import { ApiError } from "./utils/ApiError.js";
 
+
 const app = express()
 const server = http.createServer(app);
 app.use(express.json({ limit: '10mb' }));
@@ -58,6 +59,8 @@ import paymentRouter from "./routes/payment.routes.js"
 import chatRouter from "./routes/chat.routes.js"
 import resumeAnalyseRouter from "./routes/analyse.routes.js"
 import complaintRoute from "./routes/complaint.routes.js"
+import newsRouter from "./routes/news.routes.js";
+
 
 // oauth route
 
@@ -74,6 +77,8 @@ app.use("/v1/payment",paymentRouter)
 app.use("/v1/chat",chatRouter)
 app.use("/v1/resume",resumeAnalyseRouter)
 app.use("/v1/complaint",complaintRoute)
+app.use("/v1/news", newsRouter);
+
 
 app.use(passport.initialize());
 app.use("/auth", authRoutes);

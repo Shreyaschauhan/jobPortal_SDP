@@ -11,22 +11,28 @@ const TechNews = () => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await fetch(
-          `https://newsapi.org/v2/top-headlines?category=technology&language=en&apiKey=a87ba73e50e94637b8a5ada4b230a198`
-        )
-        const data = await response.json()
-        setNews(data.articles)
-        setLoading(false)
-      } catch (error) {
-        console.error("Error fetching news:", error)
-        setError("Failed to load news. Please try again later.")
-        setLoading(false)
-      }
+  const fetchNews = async () => {
+    try {
+      const response = await fetch(
+        "https://jobportal-backend-e3wl.onrender.com/v1/news/tech"
+      );
+
+      if (!response.ok) throw new Error("Failed");
+
+      const data = await response.json();
+      setNews(data.articles || []);
+    } catch (error) {
+      console.error(error);
+      setNews([]);
+      setError("Failed to load news");
+    } finally {
+      setLoading(false);
     }
-    fetchNews()
-  }, [])
+  };
+
+  fetchNews();
+}, []);
+
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "short", day: "numeric" }
