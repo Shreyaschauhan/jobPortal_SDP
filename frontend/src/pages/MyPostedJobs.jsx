@@ -25,31 +25,40 @@ const MyPostedJobs = () => {
   const user = useSelector((state) => state.auth.userData);
   const API_URL = import.meta.env.VITE_REACT_APP_API_URL
   useEffect(() => {
-    const fetchJobs = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${API_URL}/jobs/get-posted-job`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          }
-        );
-        const result = await response.json();
-        if (result.success) {
-          setJobs(result.data);
-          setFilteredJobs(result.data);
+  const fetchJobs = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${API_URL}/jobs/get-posted-job`,
+        {
+          method: "POST", // keep POST if backend expects POST
+          credentials: "include", // ✅ SEND COOKIES
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      );
+
+      if (!response.ok) {
+        throw new Error("Unauthorized or failed to fetch jobs");
       }
-    };
-    fetchJobs();
-  }, []);
+
+      const result = await response.json();
+
+      if (result.success) {
+        setJobs(result.data);
+        setFilteredJobs(result.data);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchJobs();
+}, []);
+
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
