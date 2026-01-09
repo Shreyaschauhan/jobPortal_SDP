@@ -48,17 +48,28 @@ export const handleGoogleAuth = async (req, res) => {
       "-password -refreshToken"
     );
 
-    return res.status(200).json({
-      success: true,
-      message: "Google login successful",
-      data: {
-        user: loggedInUser,
-        accessToken,
-        refreshToken,
-      },
-    });
+    // 🍪 SET COOKIES (THIS WAS MISSING)
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,        // REQUIRED (Render + Vercel = HTTPS)
+      sameSite: "None",    // REQUIRED for cross-site cookies
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    };
+
+    res
+      .cookie("accessToken", accessToken, cookieOptions)
+      .cookie("refreshToken", refreshToken, cookieOptions)
+      .status(200)
+      .json({
+        success: true,
+        message: "Google login successful",
+        data: {
+          user: loggedInUser,
+        },
+      });
   } catch (error) {
     console.error("Google authentication error:", error);
     throw new ApiError(401, "Google authentication failed");
   }
 };
+
